@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gemini AI Company - Autonomous Business Automation</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: #fff;
+        }
+
+        header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: bold;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 30px;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: opacity 0.3s;
+        }
+
+        .nav-links a:hover {
+            opacity: 0.8;
+        }
+
+        .hero {
+            padding: 100px 0;
+            text-align: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .hero h1 {
+            font-size: 48px;
+            margin-bottom: 20px;
+            font-weight: 700;
+        }
+
+        .hero p {
+            font-size: 20px;
+            margin-bottom: 40px;
+            opacity: 0.9;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background: white;
+            color: #667eea;
+            padding: 15px 40px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 16px;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .cta-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+
+        section {
+            padding: 80px 0;
+        }
+
+        h2 {
+            font-size: 36px;
+            margin-bottom: 50px;
+            text-align: center;
+            color: #333;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            margin-bottom: 50px;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            transition: transform 0.3s, box-shadow 0.3s;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+
+        .feature-card h3 {
+            color: #667eea;
+            margin-bottom: 15px;
+            font-size: 20px;
+        }
+
+        .feature-card p {
+            color: #666;
+            line-height: 1.8;
+        }
+
+        .pricing-section {
+            background: #f8f9fa;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+        }
+
+        .pricing-card {
+            background: white;
+            padding: 40px;
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+            text-align: center;
+            transition: transform 0.3s, box-shadow 0.3s;
+            border-top: 4px solid #667eea;
+        }
+
+        .pricing-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+        }
+
+        .pricing-card h3 {
+            font-size: 22px;
+            margin-bottom: 15px;
+            color: #333;
+        }
+
+        .price {
+            font-size: 42px;
+            color: #667eea;
+            font-weight: bold;
+            margin: 20px 0;
+        }
+
+        .billing-period {
+            color: #999;
+            font-size: 14px;
+            margin-bottom: 20px;
+        }
+
+        .features-list {
+            text-align: left;
+            margin: 25px 0;
+            color: #666;
+        }
+
+        .features-list li {
+            list-style: none;
+            padding: 8px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .features-list li:before {
+            content: "✓ ";
+            color: #667eea;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+
+        .buy-button {
+            background: #667eea;
+            color: white;
+            padding: 12px 30px;
+            border-radius: 50px;
+            text-decoration: none;
+            font-weight: 600;
+            display: inline-block;
+            margin-top: 20px;
+            transition: background 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .buy-button:hover {
+            background: #764ba2;
+        }
+
+        .benefits {
+            background: white;
+        }
+
+        .benefits-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 40px;
+        }
+
+        .benefit-item {
+            display: flex;
+            gap: 15px;
+        }
+
+        .benefit-icon {
+            font-size: 30px;
+            flex-shrink: 0;
+        }
+
+        .benefit-item h3 {
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .benefit-item p {
+            color: #666;
+        }
+
+        .stats {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 30px;
+            text-align: center;
+        }
+
+        .stat {
+            padding: 20px;
+        }
+
+        .stat-number {
+            font-size: 40px;
+            font-weight: bold;
+            margin-bottom: 10px;
+        }
+
+        .stat-label {
+            opacity: 0.9;
+        }
+
+        footer {
+            background: #333;
+            color: white;
+            text-align: center;
+            padding: 30px 0;
+            margin-top: 50px;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 30px;
+            margin-bottom: 30px;
+            text-align: left;
+        }
+
+        .footer-section h4 {
+            margin-bottom: 15px;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section a {
+            color: #bbb;
+            text-decoration: none;
+            display: block;
+            padding: 5px 0;
+            transition: color 0.3s;
+        }
+
+        .footer-section a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #555;
+            padding-top: 20px;
+            color: #999;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 32px;
+            }
+
+            .hero p {
+                font-size: 16px;
+            }
+
+            .nav-links {
+                gap: 15px;
+                font-size: 14px;
+            }
+
+            h2 {
+                font-size: 28px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <header>
+        <nav class="container">
+            <div class="logo">
+                🤖 Gemini AI Company
+            </div>
+            <ul class="nav-links">
+                <li><a href="#products">Products</a></li>
+                <li><a href="#benefits">Benefits</a></li>
+                <li><a href="#pricing">Pricing</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>Autonomous AI Business Automation</h1>
+            <p>Build intelligent workflows that discover customers, generate personalized pitches, and close deals—24/7, with no human intervention</p>
+            <button class="cta-button">Get Started Free</button>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="products" class="benefits">
+        <div class="container">
+            <h2>Why Choose Gemini AI Company?</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <h3>🚀 Powered by Gemini 3.1 Pro</h3>
+                    <p>1 Million token context window. Advanced reasoning capabilities. Process entire business databases in a single request.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>🤖 Autonomous Agents</h3>
+                    <p>8 intelligent agents running 24/7. Discovery, Outreach, Monitoring, Data Sync—all working simultaneously without supervision.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>💡 Zero Code Required</h3>
+                    <p>Pre-built workflows. No coding knowledge needed. Deploy in minutes, see results immediately.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>📊 Real-time Dashboard</h3>
+                    <p>Live metrics. Lead tracking. Revenue monitoring. Full visibility into your autonomous business operation.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>🔐 Enterprise Security</h3>
+                    <p>Stripe payment processing. Database encryption. API key management. Production-ready security standards.</p>
+                </div>
+                <div class="feature-card">
+                    <h3>📈 Proven ROI</h3>
+                    <p>5x higher response rates than manual outreach. $2,000-5,000 monthly revenue potential. 80%+ profit margins.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Products/Pricing Section -->
+    <section id="pricing" class="pricing-section">
+        <div class="container">
+            <h2>Our Products</h2>
+            <div class="pricing-grid">
+                <!-- Email Agent -->
+                <div class="pricing-card">
+                    <h3>📧 Email Agent</h3>
+                    <div class="price">$99</div>
+                    <div class="billing-period">per month</div>
+                    <p style="margin-bottom: 20px; color: #666;">Automate email workflows, sequences, and follow-ups</p>
+                    <ul class="features-list">
+                        <li>Unlimited emails</li>
+                        <li>Auto-responders</li>
+                        <li>Campaign tracking</li>
+                        <li>A/B testing</li>
+                        <li>Analytics</li>
+                    </ul>
+                    <button class="buy-button">Subscribe Now</button>
+                </div>
+
+                <!-- Resume Builder -->
+                <div class="pricing-card">
+                    <h3>📄 Resume Builder</h3>
+                    <div class="price">$10</div>
+                    <div class="billing-period">per resume</div>
+                    <p style="margin-bottom: 20px; color: #666;">AI-powered resume optimization for job targets</p>
+                    <ul class="features-list">
+                        <li>Job analysis</li>
+                        <li>Keyword optimization</li>
+                        <li>Format templates</li>
+                        <li>ATS-friendly</li>
+                        <li>Multiple versions</li>
+                    </ul>
+                    <button class="buy-button">Build Resume</button>
+                </div>
+
+                <!-- Web Scraper -->
+                <div class="pricing-card">
+                    <h3>🕷️ Web Scraper</h3>
+                    <div class="price">$49</div>
+                    <div class="billing-period">per month</div>
+                    <p style="margin-bottom: 20px; color: #666;">Extract competitor data and market intelligence</p>
+                    <ul class="features-list">
+                        <li>Real-time scraping</li>
+                        <li>Competitor tracking</li>
+                        <li>Price monitoring</li>
+                        <li>Lead extraction</li>
+                        <li>Scheduled jobs</li>
+                    </ul>
+                    <button class="buy-button">Start Scraping</button>
+                </div>
+
+                <!-- Document Analyzer -->
+                <div class="pricing-card">
+                    <h3>📋 Document Analyzer</h3>
+                    <div class="price">$39</div>
+                    <div class="billing-period">per month</div>
+                    <p style="margin-bottom: 20px; color: #666;">AI reads PDFs, contracts, and reports instantly</p>
+                    <ul class="features-list">
+                        <li>Unlimited uploads</li>
+                        <li>Contract review</li>
+                        <li>Insight extraction</li>
+                        <li>Data export</li>
+                        <li>Integration APIs</li>
+                    </ul>
+                    <button class="buy-button">Upload Document</button>
+                </div>
+
+                <!-- Data Analyst -->
+                <div class="pricing-card">
+                    <h3>📊 Data Analyst</h3>
+                    <div class="price">$59</div>
+                    <div class="billing-period">per month</div>
+                    <p style="margin-bottom: 20px; color: #666;">Analyze trends, anomalies, and forecast future</p>
+                    <ul class="features-list">
+                        <li>Custom analysis</li>
+                        <li>Trend detection</li>
+                        <li>Forecasting</li>
+                        <li>Reports</li>
+                        <li>Alerts</li>
+                    </ul>
+                    <button class="buy-button">Analyze Now</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats">
+        <div class="container">
+            <h2 style="color: white; margin-bottom: 40px;">Real Results</h2>
+            <div class="stats-grid">
+                <div class="stat">
+                    <div class="stat-number">47+</div>
+                    <div class="stat-label">Qualified Leads</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">5x</div>
+                    <div class="stat-label">Response Rate</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">$3.2K</div>
+                    <div class="stat-label">Monthly Revenue</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">8</div>
+                    <div class="stat-label">Autonomous Agents</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Benefits Section -->
+    <section id="benefits" class="benefits">
+        <div class="container">
+            <h2>Key Benefits</h2>
+            <div class="benefits-list">
+                <div class="benefit-item">
+                    <div class="benefit-icon">⚡</div>
+                    <div>
+                        <h3>Save 100+ Hours/Month</h3>
+                        <p>No manual lead generation, outreach, or follow-ups. Let AI handle all repetitive work while you focus on strategy.</p>
+                    </div>
+                </div>
+                <div class="benefit-item">
+                    <div class="benefit-icon">💰</div>
+                    <div>
+                        <h3>80%+ Profit Margins</h3>
+                        <p>Low operational costs. Stripe handles payments. Minimal overhead. Maximum profit potential.</p>
+                    </div>
+                </div>
+                <div class="benefit-item">
+                    <div class="benefit-icon">🎯</div>
+                    <div>
+                        <h3>5x Higher Conversion</h3>
+                        <p>Personalized pitches. Intelligent targeting. Better quality leads. Proven results in live deployment.</p>
+                    </div>
+                </div>
+                <div class="benefit-item">
+                    <div class="benefit-icon">🚀</div>
+                    <div>
+                        <h3>Scale From Day 1</h3>
+                        <p>Handle 1 customer or 1,000. Same infrastructure. No additional work to scale your business.</p>
+                    </div>
+                </div>
+                <div class="benefit-item">
+                    <div class="benefit-icon">🔧</div>
+                    <div>
+                        <h3>Easy Setup</h3>
+                        <p>Deploy in minutes. Use Stripe for payments. Pre-built dashboards. No technical skills required.</p>
+                    </div>
+                </div>
+                <div class="benefit-item">
+                    <div class="benefit-icon">📞</div>
+                    <div>
+                        <h3>24/7 Support</h3>
+                        <p>AI agents never sleep. Continuous operation. Real-time monitoring. Always-on business machine.</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer id="contact">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Product</h4>
+                    <ul>
+                        <li><a href="#products">Features</a></li>
+                        <li><a href="#pricing">Pricing</a></li>
+                        <li><a href="#">Documentation</a></li>
+                        <li><a href="#">API Docs</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="#">Privacy Policy</a></li>
+                        <li><a href="#">Terms of Service</a></li>
+                        <li><a href="#">Cookie Policy</a></li>
+                        <li><a href="#">Security</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Connect</h4>
+                    <ul>
+                        <li><a href="#">Twitter</a></li>
+                        <li><a href="#">LinkedIn</a></li>
+                        <li><a href="#">GitHub</a></li>
+                        <li><a href="#">Discord</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 Gemini AI Company. All rights reserved. | Powered by Google Gemini 3.1 Pro + Claude</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

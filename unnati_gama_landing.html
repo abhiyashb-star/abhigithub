@@ -1,0 +1,752 @@
+<!DOCTYPE html>
+<html lang="hi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>उन्नति गामा - AI Automation Platform | Abhishek Tiwari</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        :root {
+            --primary: #6366f1;
+            --primary-dark: #4f46e5;
+            --secondary: #ec4899;
+            --success: #10b981;
+            --dark: #1f2937;
+            --light: #f9fafb;
+            --border: #e5e7eb;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            line-height: 1.6;
+            color: var(--dark);
+            background: var(--light);
+        }
+
+        header {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+            padding: 1rem 0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 1rem 0;
+        }
+
+        .logo {
+            font-size: 28px;
+            font-weight: 700;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            font-weight: 500;
+            transition: opacity 0.3s;
+        }
+
+        .nav-links a:hover {
+            opacity: 0.8;
+        }
+
+        .hero {
+            padding: 6rem 0;
+            text-align: center;
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+        }
+
+        .hero h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1.5rem;
+            font-weight: 700;
+            line-height: 1.2;
+        }
+
+        .hero p {
+            font-size: 1.25rem;
+            margin-bottom: 2.5rem;
+            opacity: 0.95;
+            max-width: 700px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 1rem 2.5rem;
+            border-radius: 8px;
+            text-decoration: none;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: all 0.3s;
+            border: none;
+            cursor: pointer;
+        }
+
+        .btn-primary {
+            background: white;
+            color: var(--primary);
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 20px rgba(0, 0, 0, 0.15);
+        }
+
+        .btn-secondary {
+            background: rgba(255, 255, 255, 0.2);
+            color: white;
+            border: 2px solid white;
+        }
+
+        .btn-secondary:hover {
+            background: white;
+            color: var(--primary);
+        }
+
+        section {
+            padding: 5rem 0;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            margin-bottom: 3rem;
+            text-align: center;
+            color: var(--dark);
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: white;
+            padding: 2rem;
+            border-radius: 12px;
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.08);
+            transition: all 0.3s;
+            border-left: 4px solid var(--primary);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 24px rgba(0, 0, 0, 0.12);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card h3 {
+            color: var(--primary);
+            margin-bottom: 1rem;
+            font-size: 1.25rem;
+        }
+
+        .feature-card p {
+            color: #666;
+            line-height: 1.8;
+        }
+
+        .pricing-section {
+            background: white;
+        }
+
+        .pricing-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 2rem;
+        }
+
+        .pricing-card {
+            background: white;
+            border: 2px solid var(--border);
+            padding: 2rem;
+            border-radius: 12px;
+            text-align: center;
+            transition: all 0.3s;
+        }
+
+        .pricing-card:hover {
+            border-color: var(--primary);
+            box-shadow: 0 12px 24px rgba(99, 102, 241, 0.15);
+            transform: translateY(-5px);
+        }
+
+        .pricing-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 1rem;
+            color: var(--dark);
+        }
+
+        .price {
+            font-size: 2.5rem;
+            color: var(--primary);
+            font-weight: 700;
+            margin: 1rem 0;
+        }
+
+        .billing {
+            color: #999;
+            font-size: 0.9rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .features-list {
+            text-align: left;
+            margin: 1.5rem 0;
+            color: #666;
+        }
+
+        .features-list li {
+            list-style: none;
+            padding: 0.6rem 0;
+            border-bottom: 1px solid var(--border);
+        }
+
+        .features-list li:before {
+            content: "✓ ";
+            color: var(--success);
+            font-weight: bold;
+            margin-right: 0.8rem;
+        }
+
+        .stats {
+            background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+            color: white;
+        }
+
+        .stats-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 2rem;
+            text-align: center;
+        }
+
+        .stat {
+            padding: 2rem;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            opacity: 0.9;
+            font-size: 0.95rem;
+        }
+
+        .contact-section {
+            background: white;
+        }
+
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            margin-top: 2rem;
+        }
+
+        .contact-info {
+            background: var(--light);
+            padding: 2rem;
+            border-radius: 12px;
+        }
+
+        .contact-info h3 {
+            color: var(--primary);
+            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
+        }
+
+        .contact-item {
+            margin-bottom: 1.5rem;
+        }
+
+        .contact-item strong {
+            display: block;
+            color: var(--dark);
+            margin-bottom: 0.3rem;
+        }
+
+        .contact-item span {
+            color: #666;
+            font-size: 1.1rem;
+        }
+
+        .payment-methods {
+            background: var(--light);
+            padding: 2rem;
+            border-radius: 12px;
+        }
+
+        .payment-methods h3 {
+            color: var(--success);
+            margin-bottom: 1.5rem;
+            font-size: 1.3rem;
+        }
+
+        .payment-option {
+            background: white;
+            padding: 1.5rem;
+            border-radius: 8px;
+            margin-bottom: 1rem;
+            border-left: 4px solid var(--success);
+        }
+
+        .payment-option h4 {
+            color: var(--dark);
+            margin-bottom: 0.8rem;
+            font-size: 1.1rem;
+        }
+
+        .payment-option p {
+            color: #666;
+            font-size: 0.95rem;
+        }
+
+        .upi-box {
+            background: #fff3cd;
+            padding: 1rem;
+            border-radius: 6px;
+            margin: 0.8rem 0;
+            font-weight: 600;
+            color: #856404;
+            font-size: 1.1rem;
+        }
+
+        footer {
+            background: var(--dark);
+            color: white;
+            padding: 3rem 0 1rem;
+        }
+
+        .footer-content {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-bottom: 2rem;
+        }
+
+        .footer-section h4 {
+            margin-bottom: 1rem;
+            font-size: 1.1rem;
+        }
+
+        .footer-section ul {
+            list-style: none;
+        }
+
+        .footer-section a {
+            color: #ccc;
+            text-decoration: none;
+            display: block;
+            padding: 0.4rem 0;
+            transition: color 0.3s;
+        }
+
+        .footer-section a:hover {
+            color: white;
+        }
+
+        .footer-bottom {
+            border-top: 1px solid #444;
+            padding-top: 1.5rem;
+            text-align: center;
+            color: #999;
+            font-size: 0.9rem;
+        }
+
+        .badge {
+            display: inline-block;
+            background: var(--primary);
+            color: white;
+            padding: 0.3rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 2.2rem;
+            }
+
+            .hero p {
+                font-size: 1rem;
+            }
+
+            h2 {
+                font-size: 2rem;
+            }
+
+            .nav-links {
+                gap: 1rem;
+                font-size: 0.9rem;
+            }
+
+            .contact-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .cta-buttons {
+                flex-direction: column;
+            }
+
+            .btn {
+                width: 100%;
+            }
+        }
+
+        .trusted-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(16, 185, 129, 0.1);
+            color: var(--success);
+            padding: 0.5rem 1rem;
+            border-radius: 6px;
+            font-weight: 600;
+            margin-top: 1rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <header>
+        <nav class="container">
+            <div class="logo">
+                🚀 उन्नति गामा
+            </div>
+            <ul class="nav-links">
+                <li><a href="#products">Products</a></li>
+                <li><a href="#features">Features</a></li>
+                <li><a href="#contact">Contact</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Hero Section -->
+    <section class="hero">
+        <div class="container">
+            <h1>AI से करें अपना Business Automation</h1>
+            <p>Gemini 3.1 Pro की शक्ति से अपने business को 24/7 autonomous बनाएं। Leads खुद खुद generate हों, personalized pitches भेजें, और deals close करें।</p>
+            <div class="cta-buttons">
+                <button class="btn btn-primary">Get Started Free</button>
+                <button class="btn btn-secondary">Schedule Demo</button>
+            </div>
+        </div>
+    </section>
+
+    <!-- Features Section -->
+    <section id="features">
+        <div class="container">
+            <h2>क्यों चुनें उन्नति गामा?</h2>
+            <div class="features-grid">
+                <div class="feature-card">
+                    <div class="feature-icon">⚡</div>
+                    <h3>Gemini 3.1 Pro Powered</h3>
+                    <p>1 Million token context window। Advanced AI reasoning। आपके पूरे business को समझने की क्षमता।</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🤖</div>
+                    <h3>Autonomous Agents</h3>
+                    <p>8 intelligent agents 24/7 काम करते हैं। कोई manual work नहीं। Pure automation।</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">💰</div>
+                    <h3>High Margin Revenue</h3>
+                    <p>80%+ profit margins। Low operational cost। Passive income generate करें।</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">📊</div>
+                    <h3>Real-time Dashboard</h3>
+                    <p>Live metrics देखें। सब कुछ monitor करें। Complete transparency।</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">🔐</div>
+                    <h3>Secure Payment</h3>
+                    <p>Stripe + UPI integration। Safe transactions। Instant settlements।</p>
+                </div>
+                <div class="feature-card">
+                    <div class="feature-icon">⚙️</div>
+                    <h3>Easy Setup</h3>
+                    <p>कोई coding नहीं चाहिए। 5 minutes में ready। Deploy and go।</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section id="products" class="pricing-section">
+        <div class="container">
+            <h2>Our 5 Premium Products</h2>
+            <div class="pricing-grid">
+                <!-- Product 1 -->
+                <div class="pricing-card">
+                    <h3>📧 Email Agent</h3>
+                    <div class="price">₹7,499</div>
+                    <div class="billing">प्रति महीना</div>
+                    <ul class="features-list">
+                        <li>Unlimited emails भेजें</li>
+                        <li>Auto-responders</li>
+                        <li>Campaign tracking</li>
+                        <li>A/B testing</li>
+                        <li>24/7 Support</li>
+                    </ul>
+                    <button class="btn btn-primary">Subscribe</button>
+                </div>
+
+                <!-- Product 2 -->
+                <div class="pricing-card">
+                    <h3>📄 Resume Builder</h3>
+                    <div class="price">₹749</div>
+                    <div class="billing">प्रति resume</div>
+                    <ul class="features-list">
+                        <li>AI optimization</li>
+                        <li>Job analysis</li>
+                        <li>ATS friendly</li>
+                        <li>Multiple formats</li>
+                        <li>Instant delivery</li>
+                    </ul>
+                    <button class="btn btn-primary">Build Now</button>
+                </div>
+
+                <!-- Product 3 -->
+                <div class="pricing-card">
+                    <h3>🕷️ Web Scraper</h3>
+                    <div class="price">₹3,699</div>
+                    <div class="billing">प्रति महीना</div>
+                    <ul class="features-list">
+                        <li>Real-time scraping</li>
+                        <li>Competitor tracking</li>
+                        <li>Price monitoring</li>
+                        <li>Lead extraction</li>
+                        <li>Data export</li>
+                    </ul>
+                    <button class="btn btn-primary">Start Now</button>
+                </div>
+
+                <!-- Product 4 -->
+                <div class="pricing-card">
+                    <h3>📋 Document Analyzer</h3>
+                    <div class="price">₹2,949</div>
+                    <div class="billing">प्रति महीना</div>
+                    <ul class="features-list">
+                        <li>PDF analysis</li>
+                        <li>Contract review</li>
+                        <li>Auto insights</li>
+                        <li>Data extraction</li>
+                        <li>API access</li>
+                    </ul>
+                    <button class="btn btn-primary">Try Free</button>
+                </div>
+
+                <!-- Product 5 -->
+                <div class="pricing-card">
+                    <h3>📊 Data Analyst</h3>
+                    <div class="price">₹4,449</div>
+                    <div class="billing">प्रति महीना</div>
+                    <ul class="features-list">
+                        <li>Advanced analytics</li>
+                        <li>Trend detection</li>
+                        <li>Forecasting</li>
+                        <li>Custom reports</li>
+                        <li>Alerts</li>
+                    </ul>
+                    <button class="btn btn-primary">Analyze</button>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Stats Section -->
+    <section class="stats">
+        <div class="container">
+            <h2 style="color: white; margin-bottom: 3rem;">Live Results</h2>
+            <div class="stats-grid">
+                <div class="stat">
+                    <div class="stat-number">47+</div>
+                    <div class="stat-label">Qualified Leads</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">5x</div>
+                    <div class="stat-label">Response Rate</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">₹2.4L</div>
+                    <div class="stat-label">Monthly Revenue</div>
+                </div>
+                <div class="stat">
+                    <div class="stat-number">8</div>
+                    <div class="stat-label">Autonomous Agents</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Contact & Payment Section -->
+    <section id="contact" class="contact-section">
+        <div class="container">
+            <h2>Contact & Payment Information</h2>
+            <div class="contact-grid">
+                <!-- Contact Info -->
+                <div class="contact-info">
+                    <h3>📞 Contact Details</h3>
+
+                    <div class="contact-item">
+                        <strong>Owner / Founder</strong>
+                        <span>Abhishek Tiwari</span>
+                    </div>
+
+                    <div class="contact-item">
+                        <strong>Phone / WhatsApp</strong>
+                        <span>+91 7974748077</span>
+                    </div>
+
+                    <div class="contact-item">
+                        <strong>Email</strong>
+                        <span>abhiyashb@gmail.com</span>
+                    </div>
+
+                    <div class="contact-item">
+                        <strong>Company</strong>
+                        <span>उन्नति गामा (Unnati Gama)</span>
+                    </div>
+
+                    <div class="contact-item">
+                        <strong>Service</strong>
+                        <span>AI Automation & Intelligence</span>
+                    </div>
+
+                    <div class="trusted-badge">
+                        ✓ Verified & Trusted
+                    </div>
+                </div>
+
+                <!-- Payment Methods -->
+                <div class="payment-methods">
+                    <h3>💳 Payment Methods</h3>
+
+                    <div class="payment-option">
+                        <h4>💰 UPI (Preferred)</h4>
+                        <div class="upi-box">
+                            tiwari7974748077@upi
+                        </div>
+                        <p>Instant transfer। No extra charges। Direct to account।</p>
+                    </div>
+
+                    <div class="payment-option">
+                        <h4>🏦 Bank Transfer</h4>
+                        <p><strong>Bank:</strong> Mahindra Bank</p>
+                        <p><strong>Account Holder:</strong> Abhishek Tiwari</p>
+                        <p><strong>Account Type:</strong> Savings</p>
+                        <p style="color: #999; font-size: 0.85rem; margin-top: 0.8rem;">Details available on request</p>
+                    </div>
+
+                    <div class="payment-option">
+                        <h4>💳 Online Payment</h4>
+                        <p>Stripe, Google Pay, PhonePe</p>
+                        <p style="color: #999; font-size: 0.85rem; margin-top: 0.8rem;">Secure payment gateway</p>
+                    </div>
+
+                    <div style="background: #d4edda; padding: 1rem; border-radius: 8px; margin-top: 1rem; color: #155724;">
+                        <strong>✓ All payments are secure</strong><br>
+                        <small>SSL encrypted | PCI compliant | Money-back guarantee</small>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h4>Product</h4>
+                    <ul>
+                        <li><a href="#features">Features</a></li>
+                        <li><a href="#products">Pricing</a></li>
+                        <li><a href="#">Documentation</a></li>
+                        <li><a href="#">API</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Company</h4>
+                    <ul>
+                        <li><a href="#">About Us</a></li>
+                        <li><a href="#">Blog</a></li>
+                        <li><a href="#">Careers</a></li>
+                        <li><a href="#">News</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Support</h4>
+                    <ul>
+                        <li><a href="#">Help Center</a></li>
+                        <li><a href="#">Community</a></li>
+                        <li><a href="#">Status</a></li>
+                        <li><a href="#">Contact</a></li>
+                    </ul>
+                </div>
+                <div class="footer-section">
+                    <h4>Legal</h4>
+                    <ul>
+                        <li><a href="#">Privacy</a></li>
+                        <li><a href="#">Terms</a></li>
+                        <li><a href="#">Security</a></li>
+                        <li><a href="#">Compliance</a></li>
+                    </ul>
+                </div>
+            </div>
+            <div class="footer-bottom">
+                <p>&copy; 2026 उन्नति गामा (Unnati Gama). All rights reserved.</p>
+                <p>Powered by Gemini 3.1 Pro + Claude | Built by Abhishek Tiwari</p>
+            </div>
+        </div>
+    </footer>
+</body>
+</html>

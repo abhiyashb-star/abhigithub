@@ -1,0 +1,10 @@
+.env
+__pycache__/
+*.log
+local_data.json
+leads.json
+outputs/
+.openclaw/
+*.pyc
+venv/
+.vscode/

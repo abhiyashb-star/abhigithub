@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Lyra 2.0 — Free Production Playbook</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box;}
+:root{--gold:#f0c060;--amber:#ff8c00;--green:#00ff88;--blue:#00d4ff;--purple:#a855f7;--red:#ff4466;--bg:#0a0a0f;--card:#111118;--border:rgba(255,255,255,0.08);}
+body{background:var(--bg);color:#e8e8f0;font-family:'Segoe UI',system-ui,sans-serif;line-height:1.6;min-height:100vh;}
+a{color:var(--blue);text-decoration:none;}a:hover{text-decoration:underline;}
+
+/* HERO */
+.hero{background:linear-gradient(135deg,#0a0a0f 0%,#0d0820 50%,#0a0a0f 100%);border-bottom:1px solid var(--border);padding:52px 24px 44px;text-align:center;position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50% 0%,rgba(240,192,96,0.06) 0%,transparent 65%);pointer-events:none;}
+.hero h1{font-size:clamp(28px,5vw,58px);color:var(--gold);letter-spacing:4px;font-weight:900;margin-bottom:10px;}
+.hero .sub{color:rgba(255,255,255,0.5);font-size:14px;letter-spacing:3px;text-transform:uppercase;margin-bottom:20px;}
+.hero p{color:rgba(255,255,255,0.65);max-width:620px;margin:0 auto;font-size:16px;line-height:1.9;}
+.badge{display:inline-block;background:rgba(0,212,255,0.12);border:1px solid rgba(0,212,255,0.3);color:var(--blue);font-size:11px;letter-spacing:2px;padding:4px 12px;border-radius:20px;margin-top:16px;text-transform:uppercase;}
+
+/* LAYOUT */
+.container{max-width:1100px;margin:0 auto;padding:0 20px;}
+section{padding:48px 0 32px;}
+.section-title{font-size:11px;letter-spacing:3px;color:rgba(255,255,255,0.35);text-transform:uppercase;margin-bottom:8px;}
+.section-heading{font-size:clamp(20px,3vw,30px);color:#fff;margin-bottom:28px;font-weight:700;}
+.divider{height:1px;background:var(--border);margin:0 0 48px;}
+
+/* CARDS */
+.cards{display:grid;grid-template-columns:repeat(auto-fill,minmax(280px,1fr));gap:16px;margin-bottom:12px;}
+.card{background:var(--card);border:1px solid var(--border);border-radius:10px;padding:20px 22px;transition:border-color 0.2s,transform 0.2s;}
+.card:hover{border-color:rgba(255,255,255,0.18);transform:translateY(-2px);}
+.card-top{display:flex;align-items:center;gap:12px;margin-bottom:14px;}
+.rank{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;flex-shrink:0;}
+.r1{background:rgba(240,192,96,0.2);color:var(--gold);border:1px solid rgba(240,192,96,0.4);}
+.r2{background:rgba(0,212,255,0.15);color:var(--blue);border:1px solid rgba(0,212,255,0.35);}
+.r3{background:rgba(0,255,136,0.12);color:var(--green);border:1px solid rgba(0,255,136,0.3);}
+.r4{background:rgba(168,85,247,0.12);color:var(--purple);border:1px solid rgba(168,85,247,0.3);}
+.r5{background:rgba(255,68,102,0.12);color:var(--red);border:1px solid rgba(255,68,102,0.3);}
+.r6{background:rgba(255,255,255,0.07);color:rgba(255,255,255,0.5);border:1px solid rgba(255,255,255,0.15);}
+.card h3{font-size:16px;font-weight:700;color:#fff;}
+.card .tagline{font-size:12px;color:rgba(255,255,255,0.4);margin-top:2px;}
+.pill{display:inline-block;font-size:11px;padding:2px 10px;border-radius:12px;font-weight:600;margin-bottom:10px;}
+.pill-green{background:rgba(0,255,136,0.12);color:var(--green);border:1px solid rgba(0,255,136,0.25);}
+.pill-gold{background:rgba(240,192,96,0.12);color:var(--gold);border:1px solid rgba(240,192,96,0.25);}
+.pill-blue{background:rgba(0,212,255,0.1);color:var(--blue);border:1px solid rgba(0,212,255,0.25);}
+.pill-red{background:rgba(255,68,102,0.1);color:var(--red);border:1px solid rgba(255,68,102,0.25);}
+.info-row{display:flex;gap:8px;margin:5px 0;font-size:13px;color:rgba(255,255,255,0.6);align-items:flex-start;}
+.info-row .label{color:rgba(255,255,255,0.35);min-width:72px;font-size:12px;flex-shrink:0;padding-top:1px;}
+.highlight-box{background:rgba(240,192,96,0.05);border:1px solid rgba(240,192,96,0.2);border-radius:8px;padding:14px 18px;margin-top:8px;}
+.highlight-box .hl-title{color:var(--gold);font-size:12px;font-weight:700;letter-spacing:1px;margin-bottom:6px;text-transform:uppercase;}
+.highlight-box p{font-size:13px;color:rgba(255,255,255,0.7);line-height:1.7;}
+
+/* TIMELINE */
+.timeline{border-left:2px solid var(--border);padding-left:28px;margin-left:12px;}
+.tl-item{position:relative;margin-bottom:24px;}
+.tl-item::before{content:'';position:absolute;left:-35px;top:5px;width:10px;height:10px;border-radius:50%;border:2px solid var(--gold);background:var(--bg);}
+.tl-item.done::before{background:var(--gold);}
+.tl-hour{font-size:11px;letter-spacing:2px;color:var(--gold);text-transform:uppercase;font-weight:700;margin-bottom:4px;}
+.tl-task{font-size:14px;color:#fff;font-weight:600;margin-bottom:6px;}
+.tl-detail{font-size:13px;color:rgba(255,255,255,0.5);line-height:1.7;}
+.tl-tools{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px;}
+.tool-tag{font-size:11px;padding:2px 9px;border-radius:10px;background:rgba(255,255,255,0.06);border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.55);}
+
+/* PROMPT TIPS */
+.tip-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(300px,1fr));gap:14px;}
+.tip-card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:16px 18px;}
+.tip-card h4{color:var(--blue);font-size:13px;font-weight:700;letter-spacing:1px;text-transform:uppercase;margin-bottom:8px;}
+.tip-card p{font-size:13px;color:rgba(255,255,255,0.6);line-height:1.75;}
+code{background:rgba(0,212,255,0.08);border:1px solid rgba(0,212,255,0.15);color:var(--blue);padding:1px 7px;border-radius:4px;font-family:'Consolas',monospace;font-size:12px;}
+
+/* CHECKLIST */
+.checklist{list-style:none;display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:8px;}
+.checklist li{background:var(--card);border:1px solid var(--border);border-radius:6px;padding:10px 14px;font-size:13px;color:rgba(255,255,255,0.7);display:flex;gap:10px;align-items:flex-start;}
+.checklist li::before{content:'☐';color:var(--gold);font-size:16px;flex-shrink:0;line-height:1;}
+
+/* AUDIO WORKFLOW */
+.audio-steps{display:flex;flex-direction:column;gap:12px;}
+.audio-step{background:var(--card);border:1px solid var(--border);border-left:3px solid var(--purple);border-radius:0 8px 8px 0;padding:14px 18px;}
+.audio-step .step-num{font-size:10px;color:var(--purple);font-weight:700;letter-spacing:2px;text-transform:uppercase;margin-bottom:4px;}
+.audio-step h4{color:#fff;font-size:14px;font-weight:600;margin-bottom:6px;}
+.audio-step p{font-size:13px;color:rgba(255,255,255,0.55);line-height:1.75;}
+.freq-table{width:100%;border-collapse:collapse;font-size:13px;margin-top:16px;}
+.freq-table th{background:rgba(168,85,247,0.1);color:var(--purple);padding:8px 12px;text-align:left;font-size:11px;letter-spacing:1px;text-transform:uppercase;border-bottom:1px solid rgba(168,85,247,0.2);}
+.freq-table td{padding:8px 12px;border-bottom:1px solid var(--border);color:rgba(255,255,255,0.65);}
+.freq-table tr:last-child td{border-bottom:none;}
+.freq-table tr:hover td{background:rgba(255,255,255,0.03);}
+
+/* FOOTER */
+footer{border-top:1px solid var(--border);padding:28px 24px;text-align:center;color:rgba(255,255,255,0.25);font-size:12px;letter-spacing:1px;}
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <div class="container">
+    <div class="sub">Production Playbook</div>
+    <h1>LYRA 2.0 FREE TOOLS</h1>
+    <p>Complete roadmap for producing a cinematic Hindi explainer about Lyra 2.0 using 100% free tools — video, voice, music, and delivery.</p>
+    <div class="badge">arXiv:2604.13036 · NVIDIA Research · 2026</div>
+  </div>
+</div>
+
+<div class="container">
+
+<!-- ── SCRIPTING & BRAIN ── -->
+<section>
+  <div class="section-title">Step 0</div>
+  <div class="section-heading">🧠 The Brain — ChatGPT (GPT-4o / Mini)</div>
+
+  <div class="highlight-box" style="margin-bottom:24px; border-color:var(--green); background:rgba(0,255,136,0.03);">
+    <div class="hl-title" style="color:var(--green);">💡 Scripting & Ideation Engine</div>
+    <p>ChatGPT is your main orchestration layer. Use it to break down complex research into Hindi scripts, generate cinematic prompts for Hailuo, and write professional subtitles. <strong>Free tier is enough.</strong></p>
+  </div>
+
+  <div class="cards">
+    <div class="card">
+      <div class="card-top"><div class="rank r1">★</div><div><h3>ChatGPT Free</h3><div class="tagline">GPT-4o / 4o-mini</div></div></div>
+      <span class="pill pill-green">FREE TIER AVAILABLE</span>
+      <div class="info-row"><span class="label">Best for</span>Hindi scriptwriting, YouTube hooks, Prompt orchestration</div>
+      <div class="info-row"><span class="label">Feature</span>Advanced reasoning even on free tier</div>
+      <div class="info-row"><span class="label">Secret</span>Upload PDF of research papers (limit applies) or paste text</div>
+      <div class="info-row"><span class="label">Link</span><a href="#">chatgpt.com</a></div>
+    </div>
+  </div>
+</section>
+<div class="divider"></div>
+
+<!-- ── VIDEO GENERATORS ── -->
+<section>
+  <div class="section-title">Step 1</div>
+  <div class="section-heading">🎬 Free Video Generators — Ranked</div>
+
+  <div class="highlight-box" style="margin-bottom:24px;">
+    <div class="hl-title">⚡ Top Pick: Hailuo AI (MiniMax)</div>
+    <p><strong>1,000 free credits daily</strong> = 15–18 video clips per day. Chinese MiniMax model, accepts English prompts, excellent cinematic motion — yahi tumhari main video engine honi chahiye. Scene 1 se 10 tak sab yahan banao.</p>
+  </div>
+
+  <div class="cards">
+    <div class="card">
+      <div class="card-top"><div class="rank r1">1</div><div><h3>Hailuo AI</h3><div class="tagline">MiniMax Video-01</div></div></div>
+      <span class="pill pill-green">1000 credits/day FREE</span>
+      <div class="info-row"><span class="label">Best for</span>Cinematic motion, camera moves, all 10 scenes</div>
+      <div class="info-row"><span class="label">Length</span>Up to 6 sec per clip</div>
+      <div class="info-row"><span class="label">Quality</span>720p–1080p</div>
+      <div class="info-row"><span class="label">Prompt tip</span>"Cinematic 8K, slow dolly, dark atmosphere, no watermark"</div>
+      <div class="info-row"><span class="label">Link</span><a href="#">hailuoai.com</a></div>
+    </div>
+
+    <div class="card">
+      <div class="card-top"><div class="rank r2">2</div><div><h3>Kling AI</h3><div class="tagline">Kuaishou Video</div></div></div>
+      <span class="pill pill-blue">66 credits/day FREE</span>
+      <div class="info-row"><span class="label">Best for</span>Scenes 8–10 (explosion, galaxy, triumph)</div>
+      <div class="info-row"><span class="label">Length</span>5–10 sec per clip</div>
+      <div class="info-row"><span class="label">Quality</span>1080p</div>
+      <div class="info-row"><span class="label">Prompt tip</span>"Epic cinematic, volumetric light, IMAX quality"</div>
+      <div class="info-row"><span class="label">Link</span><a href="#">klingai.com</a></div>
+    </div>
+
+    <div class="card">
+      <div class="card-top"><div class="rank r3">3</div><div><h3>Pika Labs</h3><div class="tagline">Pika 2.1</div></div></div>
+      <span class="pill pill-green">250 credits/month FREE</span>
+      <div class="info-row"><span class="label">Best for</span>Eye/iris scenes (Scene 3), abstract visuals</div>
+      <div class="info-row"><span class="label">Length</span>3–5 sec per clip</div>
+      <div class="info-row"><span class="label">Quality</span>1080p</div>
+      <div class="info-row"><span class="label">Prompt tip</span>"Macro lens, extreme detail, bokeh, HDR"</div>
+      <div class="info-row"><span class="label">Link</span><a href="#">pika.art</a></div>
+    </div>
+
+    <div class="card">
+      <div class="card-top"><div class="rank r4">4</div><div><h3>Runway Gen-4</h3><div class="tagline">Runway ML</div></div></div>
+      <span class="pill pill-gold">125 credits free (one-time)</span>
+      <div class="info-row"><span class="label">Best for</span>Scene 6–7 (glitch/cold scenes, Act II)</div>
+      <div class="info-row"><span class="label">Length</span>4–16 sec per clip</div>
+      <div class="info-row"><span class="label">Quality</span>720p–1080p</div>
+      <div class="info-row"><span class="label">Prompt tip</span>"Cyberpunk, glitch art, neon blue, desaturated"</div>
+      <div class="info-row"><span class="label">Link</span><a href="#">runwayml.com</a></div>
+    </div>
+
+    <div class="card">
+      <div class="card-top"><div class="rank r5">5</div><div><h3>Leonardo AI</h3><div class="tagline">Video Motion</div></div></div>
+      <span class="pill pill-green">150 tokens/day FREE</span>
+      <div class="info-row"><span class="label">Best for</span>Scene 2 (grid world), architectural shots</div>
+      <div class="info-row"><span class="label">Length</span>4 sec per clip</div>
+      <div class="info-row"><span class="label">Quality</span>720p</div>
+      <div class="info-row"><span class="label">Prompt tip</span>"Blueprint, wireframe, perspective grid, teal glow"</div>
+      <div class="info-row"><span class="label">Link</span><a href="#">leonardo.ai</a></div>
+    </div>
+
+    <div class="card">
+      <div class="card-top"><div class="rank r6">6</div><div><h3>Veo 3</h3><div class="tagline">Google DeepMind</div></div></div>
+      <span class="pill pill-red">Paid / Waitlist</span>
+      <div class="info-row"><span class="label">Best for</span>If access available — Scene 4 (point cloud)</div>
+      <div class="info-row"><span class="label">Length</span>Up to 8 sec</div>
+      <div class="info-row"><span class="label">Quality</span>4K</div>
+      <div class="info-row"><span class="label">Note</span>Currently limited access. Use Hailuo as fallback.</div>
+      <div class="info-row"><span class="label">Link</span><a href="#">deepmind.google/veo</a></div>
+    </div>
+  </div>
+</section>
+<div class="divider"></div>
+
+<!-- ── VOICE OPTIONS ── -->
+<section>
+  <div class="section-title">Step 2</div>
+  <div class="section-heading">🎙️ Free Voice / Narration</div>
+  <div class="cards">
+    <div class="card">
+      <div class="card-top"><div class="rank r1">Best</div><div><h3>Microsoft Edge TTS</h3><div class="tagline">Neural voices — totally free</div></div></div>
+      <span class="pill pill-green">100% FREE · No signup</span>
+      <div class="info-row"><span class="label">Hindi voice</span>hi-IN-MadhurNeural (male) / hi-IN-SwaraNeural (female)</div>
+      <div class="info-row"><span class="label">How</span>Open Edge browser → read-aloud any text → record with OBS</div>
+      <div class="info-row"><span class="label">Quality</span>Near-human, great for Hindi narration</div>
+      <div class="info-row"><span class="label">Tip</span>Use <code>--rate=-10%</code> flag for slower, cinematic pace</div>
+    </div>
+
+    <div class="card">
+      <div class="card-top"><div class="rank r2">Good</div><div><h3>ElevenLabs</h3><div class="tagline">AI voice cloning</div></div></div>
+      <span class="pill pill-blue">10,000 chars/month FREE</span>
+      <div class="info-row"><span class="label">Best for</span>English segments, dramatic narration</div>
+      <div class="info-row"><span class="label">Voice</span>"Adam" or "Josh" for deep cinematic tone</div>
+      <div class="info-row"><span class="label">Limit</span>~8 mins of narration on free tier</div>
+      <div class="info-row"><span class="label">Link</span><a href="#">elevenlabs.io</a></div>
+    </div>
+
+    <div class="card">
+      <div class="card-top"><div class="rank r3">Alt</div><div><h3>Murf AI</h3><div class="tagline">Studio-quality TTS</div></div></div>
+      <span class="pill pill-gold">10 mins/month FREE</span>
+      <div class="info-row"><span class="label">Best for</span>Title cards, short punchy lines</div>
+      <div class="info-row"><span class="label">Hindi</span>Limited Hindi support on free tier</div>
+      <div class="info-row"><span class="label">Tip</span>Use for Act III triumph lines only (saves quota)</div>
+      <div class="info-row"><span class="label">Link</span><a href="#">murf.ai</a></div>
+    </div>
+  </div>
+</section>
+<div class="divider"></div>
+
+<!-- ── MUSIC / BGM ── -->
+<section>
+  <div class="section-title">Step 3</div>
+  <div class="section-heading">🎵 Free Music + Real Alpha-Wave Layer</div>
+
+  <div class="highlight-box" style="margin-bottom:20px;border-color:rgba(168,85,247,0.3);background:rgba(168,85,247,0.04);">
+    <div class="hl-title" style="color:var(--purple);">🧠 Real Neuroscience Technique</div>
+    <p>Left earphone 200 Hz + Right earphone 208 Hz = brain perceives 8 Hz alpha wave (difference tone). Actual meditation apps use this. Tumhari BGM literally audience ke brain waves affect karegi.</p>
+  </div>
+
+  <div class="audio-steps">
+    <div class="audio-step">
+      <div class="step-num">Step 1 — Generate Base Music</div>
+      <h4>Suno AI — Free Tier (50 songs/day)</h4>
+      <p>Prompt: <code>"cinematic ambient, dark orchestral, no vocals, 8-bit cosmic texture, 140 BPM, suitable for sci-fi documentary"</code><br>Generate 3–4 versions, pick the best. Download as MP3.</p>
+    </div>
+    <div class="audio-step">
+      <div class="step-num">Step 2 — Add Binaural Layer (Audacity)</div>
+      <h4>Free: Audacity + Generate Tones</h4>
+      <p>1. Open MP3 in Audacity<br>2. Add new stereo track → Generate → Tone<br>3. <strong>Left channel:</strong> 200 Hz, Sine wave, amplitude 0.08<br>4. <strong>Right channel:</strong> 208 Hz (for 8 Hz alpha), amplitude 0.08<br>5. Mix down → Export as WAV/MP3</p>
+    </div>
+    <div class="audio-step">
+      <div class="step-num">Step 3 — Scene-Specific Frequencies</div>
+      <h4>Change beat frequency per act</h4>
+      <table class="freq-table">
+        <tr><th>Scene</th><th>Act</th><th>Beat Hz</th><th>Left Chan</th><th>Right Chan</th><th>Effect</th></tr>
+        <tr><td>1–5</td><td>ACT I</td><td>8 Hz</td><td>200 Hz</td><td>208 Hz</td><td>Alpha — calm awakening, focused attention</td></tr>
+        <tr><td>4</td><td>ACT I</td><td>7.83 Hz</td><td>194 Hz</td><td>201.83 Hz</td><td>Schumann resonance — Earth's natural frequency</td></tr>
+        <tr><td>6–7</td><td>ACT II</td><td>3.5 Hz</td><td>180 Hz</td><td>183.5 Hz</td><td>Theta — dreamlike dread, subconscious unease</td></tr>
+        <tr><td>8–10</td><td>ACT III</td><td>10 Hz</td><td>220 Hz</td><td>230 Hz</td><td>Alpha peak — celebration, clarity, focus</td></tr>
+      </table>
+    </div>
+  </div>
+</section>
+<div class="divider"></div>
+
+<!-- ── 6-HOUR TIMELINE ── -->
+<section>
+  <div class="section-title">Step 4</div>
+  <div class="section-heading">⏱️ 6-Hour Production Timeline</div>
+
+  <div class="timeline">
+    <div class="tl-item">
+      <div class="tl-hour">Hour 0:00 – 0:30</div>
+      <div class="tl-task">Setup + Script finalization</div>
+      <div class="tl-detail">Final Hindi narration script lock karo. Scene-wise prompts list banao (10 scenes × 2 backup prompts each = 20 prompts ready).</div>
+      <div class="tl-tools"><span class="tool-tag">Notepad / Notion</span><span class="tool-tag">GEMINI_CLAUDE_VIDEO_SCRIPT.md</span></div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-hour">Hour 0:30 – 2:30</div>
+      <div class="tl-task">Video generation — all 10 scenes</div>
+      <div class="tl-detail">Hailuo AI pe Scenes 1–5 aur 8–10 generate karo (main engine). Kling pe Scenes 8–10 ke alternate versions. Pika pe Scene 3 (eye). Sab clips folder mein organize karo: S01_v1.mp4, S01_v2.mp4, etc.</div>
+      <div class="tl-tools"><span class="tool-tag">Hailuo AI</span><span class="tool-tag">Kling AI</span><span class="tool-tag">Pika Labs</span><span class="tool-tag">Runway (Act II)</span></div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-hour">Hour 2:30 – 3:30</div>
+      <div class="tl-task">Voiceover recording</div>
+      <div class="tl-detail">Edge TTS se Hindi narration generate karo. Audacity mein noise reduction + EQ run karo. Export as 48kHz WAV.</div>
+      <div class="tl-tools"><span class="tool-tag">Microsoft Edge TTS</span><span class="tool-tag">Audacity</span></div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-hour">Hour 3:30 – 4:30</div>
+      <div class="tl-task">BGM + Binaural layer</div>
+      <div class="tl-detail">Suno pe music generate karo. Audacity mein binaural tones add karo (per-scene frequency swap). Master BGM export karo.</div>
+      <div class="tl-tools"><span class="tool-tag">Suno AI</span><span class="tool-tag">Audacity</span></div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-hour">Hour 4:30 – 5:45</div>
+      <div class="tl-task">Video editing + Hindi text overlays</div>
+      <div class="tl-detail">CapCut (free) ya DaVinci Resolve mein sab clips assemble karo. Hindi subtitles/overlays add karo. Transitions smooth karo (1.5s fade between scenes). Color grade: warm gold Act I, cold blue Act II, warm gold Act III.</div>
+      <div class="tl-tools"><span class="tool-tag">CapCut (free)</span><span class="tool-tag">DaVinci Resolve (free)</span></div>
+    </div>
+    <div class="tl-item">
+      <div class="tl-hour">Hour 5:45 – 6:00</div>
+      <div class="tl-task">Final review + export</div>
+      <div class="tl-detail">Checklist run karo (below). Export: 1080p, H.264, 24fps. YouTube upload ready.</div>
+      <div class="tl-tools"><span class="tool-tag">CapCut / DaVinci</span><span class="tool-tag">HandBrake (compression)</span></div>
+    </div>
+  </div>
+</section>
+<div class="divider"></div>
+
+<!-- ── PROMPT ENGINEERING ── -->
+<section>
+  <div class="section-title">Step 5</div>
+  <div class="section-heading">💡 Prompt Engineering — 8K Feel on Free Tools</div>
+
+  <div class="tip-grid">
+    <div class="tip-card">
+      <h4>Universal prefix</h4>
+      <p>Har prompt ke shuru mein add karo:<br><code>cinematic 8K, IMAX quality, film grain, anamorphic lens, shallow depth of field,</code><br>Ye consistently better results deta hai free models pe bhi.</p>
+    </div>
+    <div class="tip-card">
+      <h4>Scene 1 (Spark Fall)</h4>
+      <p><code>Single glowing ember falling slowly through infinite darkness, golden light trail, cinematic macro, extreme slow motion, black background, no camera movement</code></p>
+    </div>
+    <div class="tip-card">
+      <h4>Scene 4 (Point Cloud)</h4>
+      <p><code>3D point cloud materializing from darkness, teal and cyan particles, depth map visualization, slow rotation, LIDAR-style scan, sci-fi documentary aesthetic</code></p>
+    </div>
+    <div class="tip-card">
+      <h4>Scene 6–7 (Act II)</h4>
+      <p><code>Digital glitch art, corrupted data stream, cold blue desaturated palette, cyberpunk dystopian, flickering neon, 2001 Space Odyssey aesthetic, no warmth</code></p>
+    </div>
+    <div class="tip-card">
+      <h4>Scene 9 (Galaxy Zoom)</h4>
+      <p><code>Hyperspace jump, stars rushing past, galaxy center zoom, Kubrick inspired, no music cues, pure visual spectacle, warm amber star trails, infinite depth</code></p>
+    </div>
+    <div class="tip-card">
+      <h4>Negative prompts (always add)</h4>
+      <p>Add to every prompt:<br><code>no watermark, no text, no logo, no blur, no artifacts, no stock footage look, no generic corporate aesthetic</code></p>
+    </div>
+    <div class="tip-card">
+      <h4>Regeneration strategy</h4>
+      <p>Generate 3 versions of each scene. Pick the best one. If none work, change ONE word in the prompt — usually "cinematic" → "documentary" or "macro" → "wide angle".</p>
+    </div>
+    <div class="tip-card">
+      <h4>Hailuo credit trick</h4>
+      <p>Generate 3-second clips (uses fewer credits). Then use CapCut's <strong>AI slow-motion</strong> to stretch to 6 seconds. Output looks smoother AND uses half the credits.</p>
+    </div>
+  </div>
+</section>
+<div class="divider"></div>
+
+<!-- ── CHECKLIST ── -->
+<section>
+  <div class="section-title">Before Upload</div>
+  <div class="section-heading">✅ Pre-Upload Checklist</div>
+  <ul class="checklist">
+    <li>All 10 scene clips selected and in order</li>
+    <li>Hindi text overlays visible on mobile (min 22px)</li>
+    <li>Headphone notice in description + pinned comment</li>
+    <li>BGM binaural layer mixed correctly (L ≠ R frequency)</li>
+    <li>Color grade: warm Act I → cold Act II → warm Act III</li>
+    <li>No watermarks visible from video generators</li>
+    <li>Voiceover levels: -12 dB target, peaks at -6 dB</li>
+    <li>BGM ducked to -18 dB under narration</li>
+    <li>Transitions between scenes: 1–1.5s fade to black</li>
+    <li>YouTube thumbnail: Scene 10 frame + Devanagari title</li>
+    <li>arXiv citation in description: arXiv:2604.13036</li>
+    <li>Fair use disclaimer for academic paper content</li>
+    <li>Tags: #Lyra2 #GenerativeAI #3DWorld #NVIDIA #AIResearch</li>
+    <li>Exported at 1080p, H.264, 24fps, under 2GB</li>
+    <li>Preview watched in full on headphones before upload</li>
+    <li>ARE_Cinematic_Preview.html tested in Chrome/Edge</li>
+  </ul>
+</section>
+
+</div>
+
+<footer>
+  ARE Free Tools Playbook · Lyra 2.0 · arXiv:2604.13036 · NVIDIA Research 2026<br>
+  <span style="margin-top:6px;display:block;">Sab tools pe official free tiers use kiye gaye hain — koi paid subscription required nahi hai baseline production ke liye.</span>
+</footer>
+
+</body>
+</html>
