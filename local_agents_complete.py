@@ -9,6 +9,7 @@ import os
 import json
 import logging
 from datetime import datetime
+from typing import Optional
 import subprocess
 import requests
 from pathlib import Path
@@ -41,6 +42,7 @@ logger = logging.getLogger(__name__)
 
 SUPABASE_URL = os.getenv("SUPABASE_URL")
 SUPABASE_KEY = os.getenv("SUPABASE_KEY")
+API_BASE = os.getenv("API_URL", "http://localhost:8000")
 supabase: Optional[Client] = None
 
 if SUPABASE_URL and SUPABASE_KEY:
@@ -59,6 +61,7 @@ SCHEDULE = {
     "SALES_SQUAD": {"start": 9, "end": 17},   # Outreach: 9 AM - 5 PM
     "PRODUCER_SQUAD": {"start": 17, "end": 22}, # Content Creation: 5 PM - 10 PM
     "OPS_SQUAD": {"start": 0, "end": 24},     # Monitoring: Always On
+    "SUPPORT_SQUAD": {"start": 0, "end": 24},  # Customer Support: Always On
 }
 
 def is_squad_active(squad_name):
@@ -73,6 +76,7 @@ CONFIG = {
     "lead_generation_interval": 30,  # minutes
     "website_monitor_interval": 5,  # minutes
     "data_sync_interval": 60,  # minutes
+    "support_ticket_interval": 10,  # minutes
 }
 
 # ============================================================
@@ -334,6 +338,80 @@ class DataSyncAgent:
             time.sleep(1)
 
 # ============================================================
+# AGENT 5: CUSTOMER SUPPORT AGENT (Every 10 minutes)
+# ============================================================
+
+class CustomerSupportAgent:
+    """Continuously classify and auto-respond to customer support tickets"""
+
+    def __init__(self):
+        self.logger = logging.getLogger("CustomerSupportAgent")
+        self.tickets_resolved = 0
+        self.error_count = 0
+
+    def process_tickets(self):
+        """Fetch open support tickets and draft/send replies - Support Squad"""
+        if not is_squad_active("SUPPORT_SQUAD"):
+            self.logger.info("⏳ Support Squad in standby mode.")
+            return
+
+        if not supabase:
+            self.logger.warning("⚠️ Supabase not configured, skipping ticket fetch")
+            return
+
+        try:
+            open_tickets = supabase.table("support_tickets") \
+                .select("*").eq("status", "open").execute()
+
+            for ticket in open_tickets.data:
+                ticket_id = ticket.get("id")
+                self.logger.info(f"🎫 Processing ticket #{ticket_id}: {ticket.get('subject')}")
+
+                response = requests.post(
+                    f"{API_BASE}/support-agent",
+                    json={
+                        "task_type": "customer_support",
+                        "input_data": {
+                            "ticket_id": ticket_id,
+                            "customer_email": ticket.get("customer_email"),
+                            "subject": ticket.get("subject"),
+                            "message": ticket.get("message")
+                        },
+                        "reasoning_level": "medium"
+                    },
+                    timeout=30
+                )
+
+                if response.status_code == 200:
+                    result = response.json()
+                    self.tickets_resolved += 1
+
+                    supabase.table("support_tickets").update({
+                        "status": "responded",
+                        "response": result.get("result", {}).get("primary_response", ""),
+                        "resolved_at": datetime.now().isoformat()
+                    }).eq("id", ticket_id).execute()
+
+                    self.logger.info(f"✅ Ticket #{ticket_id} resolved")
+                else:
+                    self.error_count += 1
+                    self.logger.error(f"❌ Failed to process ticket #{ticket_id}: {response.status_code}")
+
+        except Exception as e:
+            self.error_count += 1
+            self.logger.error(f"❌ Error processing support tickets: {str(e)}")
+
+    def start(self):
+        """Start customer support agent"""
+        self.logger.info("🎫 Customer Support Agent starting (every 10 minutes)...")
+
+        schedule.every(CONFIG["support_ticket_interval"]).minutes.do(self.process_tickets)
+
+        while True:
+            schedule.run_pending()
+            time.sleep(1)
+
+# ============================================================
 # MASTER CONTROLLER
 # ============================================================
 
@@ -346,7 +424,8 @@ class LocalAgentController:
             "email": EmailProcessor(),
             "leads": LeadGenerator(),
             "monitor": WebsiteMonitor(),
-            "sync": DataSyncAgent()
+            "sync": DataSyncAgent(),
+            "support": CustomerSupportAgent()
         }
 
     def status_report(self):
@@ -358,6 +437,7 @@ class LocalAgentController:
         self.logger.info(f"🎯 LeadGenerator: {self.agents['leads'].leads_generated} leads")
         self.logger.info(f"🌐 WebsiteMonitor: {self.agents['monitor'].uptime_percentage:.1f}% uptime")
         self.logger.info(f"🔄 DataSyncAgent: {self.agents['sync'].sync_count} syncs")
+        self.logger.info(f"🎫 CustomerSupportAgent: {self.agents['support'].tickets_resolved} tickets resolved")
         self.logger.info("=" * 60)
 
     def run_all_agents(self):
@@ -373,6 +453,7 @@ class LocalAgentController:
             ("LeadGenerator", self.agents["leads"].start),
             ("WebsiteMonitor", self.agents["monitor"].start),
             ("DataSyncAgent", self.agents["sync"].start),
+            ("CustomerSupportAgent", self.agents["support"].start),
         ]
 
         # Note: In production, use multiprocessing or asyncio
