@@ -247,7 +247,11 @@ async def process_with_gemini(request: AutomationRequest) -> Dict[str, Any]:
                               Extract insights and structure data. Use file_search to analyze documents.""",
         "data_analysis": """You are a data analysis expert. Process CSVs, databases, and datasets.
                           Create visualizations and generate insights. Use code_execution for analysis.""",
-        "voice": """You are a voice agent assistant. Process voice transcripts and generate appropriate responses."""
+        "voice": """You are a voice agent assistant. Process voice transcripts and generate appropriate responses.""",
+        "customer_support": """You are a customer support expert. Read the incoming customer ticket, classify it
+                             by category (billing, technical, general) and urgency, then draft an empathetic,
+                             helpful reply. Use database_query to look up customer/order history and send_email
+                             to deliver the response."""
     }
 
     system_prompt = system_prompts.get(request.task_type, "You are a helpful AI assistant.")
@@ -328,7 +332,8 @@ async def process_with_chatgpt(request: AutomationRequest) -> Dict[str, Any]:
         "web_scrape": "You are a web scraping expert...",
         "document_analysis": "You are a document analysis expert...",
         "data_analysis": "You are a data analysis expert...",
-        "voice": "You are a voice agent assistant..."
+        "voice": "You are a voice agent assistant...",
+        "customer_support": "You are a customer support expert. Classify the ticket and draft an empathetic reply..."
     }
     system_prompt = system_prompts.get(request.task_type, "You are a helpful AI assistant.")
 
@@ -459,6 +464,13 @@ async def data_analyst(request: AutomationRequest):
     """Data analysis agent"""
     request.task_type = "data_analysis"
     request.use_tools = ["code_execution", "database_query"]
+    return await automate(request)
+
+@app.post("/support-agent")
+async def support_agent(request: AutomationRequest):
+    """Customer support automation agent"""
+    request.task_type = "customer_support"
+    request.use_tools = ["database_query", "send_email", "google_search"]
     return await automate(request)
 
 # ============================================================
