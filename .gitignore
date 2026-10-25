@@ -8,3 +8,6 @@ outputs/
 *.pyc
 venv/
 .vscode/
+
+# AgentClaw: copies of internal Drive docs used as writer context (not for a public repo)
+agentclaw-knowledge/_context/
