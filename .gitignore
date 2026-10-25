@@ -8,3 +8,6 @@ outputs/
 *.pyc
 venv/
 .vscode/
+
+# AgentClaw knowledge drafts: kept out of this public repo until the Founder decides (copies go to Drive)
+agentclaw-knowledge/
