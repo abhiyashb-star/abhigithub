@@ -9,5 +9,5 @@ outputs/
 venv/
 .vscode/
 
-# AgentClaw: copies of internal Drive docs used as writer context (not for a public repo)
-agentclaw-knowledge/_context/
+# AgentClaw knowledge drafts: kept out of this public repo until the Founder decides (copies go to Drive)
+agentclaw-knowledge/
